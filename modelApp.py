@@ -34,29 +34,30 @@ def reload():
     panel.configure(image=img2)
     panel.image = img2
 
+
 def classifyImage(): 
-    imageInput = imageio.imread("test.png")
+    imageInput = imageio.imread(l_text_1.get())
     if len(imageInput.shape) == 3:
         imageInput = color.rgb2gray(imageInput)
-    
     imageInput = misc.imresize(imageInput, (200,200))
     imageInput = np.expand_dims(imageInput,axis = 0)
     imageInput = np.expand_dims(imageInput,axis = 3)
-
     modelPrediction = model.predict(imageInput)[0][0]
-    
     predict_text.set(modelPrediction)
-    
-    print(modelPrediction)
+    img2 = ImageTk.PhotoImage(Image.open(l_text_1.get()))
+    panel.configure(image=img2)
+    panel.image = img2
 
-b = tk.Button(app, text="Reload", command=reload)
-b.pack(side = "bottom")
+l_text_1 = tk.StringVar()
+l_text_1.set("test.png")
+l_label = tk.Entry(app, textvariable=l_text_1,width = 15)
+l_label.pack(side="left")
 
 p = tk.Button(app, text="Classify", command=classifyImage)
 p.pack(side = "bottom")
 
 predict_text = tk.StringVar()
-predictLabel = tk.Label(app, textvariable=predict_text)
+predictLabel = tk.Label(app, textvariable=predict_text,width = 5, height = 5)
 predictLabel.pack(side = "top")
 
 
